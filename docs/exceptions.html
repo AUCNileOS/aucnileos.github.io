@@ -1,0 +1,243 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>C++ Exceptions - Nile OS Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Nile OS Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="attempting-c-exception-support-for-the-target-system"><a class="header" href="#attempting-c-exception-support-for-the-target-system">Attempting C++ Exception Support for the Target System</a></h1>
+<p>This document outlines the efforts made to port C++ exception handling to the <code>x86_64-elf</code> target system within this
+development environment. The approach was based on the information provided in the OSDev wiki article on <a href="https://wiki.osdev.org/C%2B%2B_Exception_Support">C++ Exception Support</a>.</p>
+<h2 id="porting-newlib"><a class="header" href="#porting-newlib">Porting Newlib</a></h2>
+<p>"Newlib is a C standard library implementation intended for use on embedded systems." One of the main attractions of Newlib is that it's fairly easy to port to any new system, however, it is not a complete implementation and lacks networking and dynamic linking.</p>
+<p>After researching and starting the porting process, we talked to Dr. Karim who informed us that we have an almost complete implementation of stdc, and that it makes no sense (in our case) to port an incomplete library. We eventually dropped the porting process in favor of moving faster towards C++ Exceptions.</p>
+<h2 id="initial-approach-to-exceptions"><a class="header" href="#initial-approach-to-exceptions">Initial Approach to Exceptions</a></h2>
+<p>The initial strategy involved the following steps based on the OSDev article <a href="https://wiki.osdev.org/C%2B%2B_Exception_Support">C++ Exception Support</a> :</p>
+<ol>
+<li><strong>Porting <code>libcxxrt</code>:</strong> This library provides the runtime support necessary for C++ features, including exceptions.</li>
+<li><strong>Porting <code>libgcc_eh</code>:</strong> This library from GCC handles the low-level details of exception propagation and stack
+unwinding.</li>
+</ol>
+<h2 id="challenges-encountered"><a class="header" href="#challenges-encountered">Challenges Encountered</a></h2>
+<h3 id="lack-of-a-fully-functioning-stdc"><a class="header" href="#lack-of-a-fully-functioning-stdc">Lack of a Fully Functioning <code>stdc</code></a></h3>
+<p>A significant obstacle was the absence of a complete and functional standard C library (<code>stdc</code>) for the target
+environment. The C++ standard library (<code>libcxx</code>) and its runtime dependencies often rely on features provided by <code>stdc</code>.</p>
+<h3 id="stubbing-for-libcxxrt-compilation"><a class="header" href="#stubbing-for-libcxxrt-compilation">Stubbing for <code>libcxxrt</code> Compilation</a></h3>
+<p>To overcome the missing <code>stdc</code> dependencies and allow <code>libcxxrt</code> to compile, it became necessary to add stubs for
+certain C library functions. These stubs provided minimal or no actual functionality but were sufficient to satisfy the
+compiler and linker during the build process of <code>libcxxrt</code>.</p>
+<h3 id="linker-script-modifications"><a class="header" href="#linker-script-modifications">Linker Script Modifications</a></h3>
+<p>The default linker scripts for the target environment were not configured to properly handle the object files and
+libraries produced during the <code>libcxxrt</code> build. Modifications to the linker scripts were required to ensure that the
+<code>libcxxrt</code> library could be linked successfully.</p>
+<h2 id="partial-success-libcxxrt-compilation"><a class="header" href="#partial-success-libcxxrt-compilation">Partial Success: <code>libcxxrt</code> Compilation</a></h2>
+<p>Despite the challenges, we were able to successfully compile the <code>libcxxrt</code> library for the <code>x86_64-elf</code> target after
+adding the necessary stubs and adjusting the linker scripts. This indicated progress in establishing the foundational
+runtime support for C++.</p>
+<h2 id="setback-porting-libgcc_eh"><a class="header" href="#setback-porting-libgcc_eh">Setback: Porting <code>libgcc_eh</code></a></h2>
+<p>The second part of the endeavor focused on porting <code>libgcc_eh</code>, which is crucial for the actual mechanism of throwing
+and catching exceptions. This proved to be significantly more complex than porting <code>libcxxrt</code>. Mainly due to missing system calls.</p>
+<h2 id="second-approach-itanium-c-abi"><a class="header" href="#second-approach-itanium-c-abi">Second approach (Itanium C++ ABI)</a></h2>
+<p>Other than the way presented in the OSDev article, the <a href="https://itanium-cxx-abi.github.io/cxx-abi/abi-eh.html">Itanium C++ API</a> is a definition of C++ Exception handling API at three levels. It is a more "bear metal" approach to implementing exceptions, where we do not rely on any porting of libraries or external implementation. The second approach, although constitutes more work, seems to be more appropriate for our use case with NileOS.</p>
+<h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
+<p>While the initial attempt to port C++ exceptions to the <code>x86_64-elf</code> target resulted in the successful compilation of
+<code>libcxxrt</code> (with the aid of stubs and linker modifications), the subsequent effort to port <code>libgcc_eh</code> was unsuccessful.
+The lack of a complete <code>stdc</code> and the inherent complexities of adapting low-level exception handling mechanisms like
+those in <code>libgcc_eh</code> to a custom environment presented significant hurdles that could not be overcome at this time.</p>
+<p>As such, it makes sense to continue with the second approach with implementing the low level details manually, instead of investing more time on trying to port the libraries.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="servicesNileOS.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="servicesNileOS.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

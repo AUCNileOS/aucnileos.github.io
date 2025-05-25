@@ -1,0 +1,514 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Nile OS Documentation</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Nile OS Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- TODO: Introduction -->
+<p>This document serves as documentation for the efforts done by Omar Elfouly, Pimyn Girgis, and Bevly Remon during Spring 2025.</p>
+<p>The goal of this documentation is to record every experiment we have preformed in order to assist anyone attempting to continue developing NileOS.</p>
+<p>We will begin by describing the <a href="nix.html">environment</a> we have set up and then we will proceed with describing the <a href="runningNileOS.html">experiments</a> we preformed.</p>
+<h1 id="contact-information"><a class="header" href="#contact-information">Contact Information</a></h1>
+<p>If you have any questions or concerns you may contact us using the following:</p>
+<ul>
+<li><a href="mailto:omarelfouly@aucegypt.edu">omarelfouly@aucegypt.edu</a> Github:@OmarElfouly</li>
+<li><a href="mailto:bemen@aucegypt.edu">bemen@aucegypt.edu</a> Github:@pimyn-girgis</li>
+<li><a href="mailto:bavly.remon2004@aucegypt.edu">bavly.remon2004@aucegypt.edu</a> Github:@BavlyRemon</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="nix-flake-documentation"><a class="header" href="#nix-flake-documentation">Nix Flake Documentation</a></h1>
+<p>This Nix flake provides a development environment for cross-compiling to the <code>x86_64-elf</code> target system. It supports development on <code>aarch64-darwin</code>, <code>x86_64-darwin</code>, <code>x86_64-linux</code>, and <code>aarch64-linux</code> host systems.</p>
+<h2 id="inputs"><a class="header" href="#inputs">Inputs</a></h2>
+<p>The flake utilizes the following Nix inputs:</p>
+<ul>
+<li><strong>nixpkgs</strong>:
+<ul>
+<li>Source: <code>github:NixOS/nixpkgs/nixpkgs-unstable</code></li>
+<li>Provides the Nix Packages collection, using the unstable channel for the latest package versions.</li>
+</ul>
+</li>
+<li><strong>flake-utils</strong>:
+<ul>
+<li>Source: <code>github:numtide/flake-utils</code></li>
+<li>A utility library for simplifying the creation of Nix flakes, particularly for multi-platform builds.</li>
+</ul>
+</li>
+</ul>
+<h2 id="outputs"><a class="header" href="#outputs">Outputs</a></h2>
+<p>The flake's <code>outputs</code> function takes <code>self</code>, <code>nixpkgs</code>, and <code>flake-utils</code> as arguments and defines the flake's buildable and development outputs. It uses <code>flake-utils.lib.eachSystem</code> to generate outputs for each specified system: <code>aarch64-darwin</code>, <code>x86_64-darwin</code>, <code>x86_64-linux</code>, and <code>aarch64-linux</code>.</p>
+<p>For each supported system, the flake defines the following:</p>
+<h3 id="devshell"><a class="header" href="#devshell"><code>devShell</code></a></h3>
+<p>A development shell environment configured for cross-compilation. This environment includes tools and settings necessary for developing software targeting the <code>x86_64-elf</code> architecture.</p>
+<h4 id="included-packages"><a class="header" href="#included-packages">Included Packages</a></h4>
+<p>The <code>devShell</code> environment includes the following packages from <code>nixpkgs</code> for the native build system (<code>pkgs</code>):</p>
+<ul>
+<li><code>git</code>: A distributed version control system.</li>
+<li><code>hostname</code>: Utilities to set/show the host name or domain name of the system.</li>
+<li><code>qemu</code>: A generic and open source machine emulator and virtualizer. Useful for testing the cross-compiled binaries.</li>
+<li><code>gcc</code>: The GNU Compiler Collection, used for native compilation tasks if needed.</li>
+<li><code>nasm</code>: An assembler for the x86 family of microprocessors.</li>
+<li><code>bear</code>: A tool that generates compilation database for clang-based tools.</li>
+<li><code>clang-tools</code>: A collection of static analysis and refactoring tools for C, C++, and Objective-C.</li>
+</ul>
+<p>Additionally, it includes the following package from the cross-compilation environment (<code>crossPkgs</code>):</p>
+<ul>
+<li><code>stdenv.cc</code>: The standard C/C++ build environment for the target <code>x86_64-elf</code> system. This provides the necessary compiler and linker for the target architecture.</li>
+</ul>
+<h4 id="shell-hook"><a class="header" href="#shell-hook">Shell Hook</a></h4>
+<p>The <code>devShell</code> defines a <code>shellHook</code> that sets environment variables to use the cross-compilation toolchain by default:</p>
+<ul>
+<li><code>CC=x86_64-unknown-none-elf-gcc</code>: Sets the default C compiler to the <code>x86_64-elf</code> target.</li>
+<li><code>CXX=x86_64-unknown-none-elf-g++</code>: Sets the default C++ compiler to the <code>x86_64-elf</code> target.</li>
+<li><code>LD=x86_64-unknown-none-elf-ld</code>: Sets the default linker to the <code>x86_64-elf</code> target.</li>
+<li><code>OBJCOPY=x86_64-unknown-none-elf-objcopy</code>: Sets the default object copy utility to the <code>x86_64-elf</code> target.</li>
+</ul>
+<p>These environment variables ensure that when you build within this development shell, the tools will target the <code>x86_64-elf</code> architecture.</p>
+<h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
+<p>To use this flake, you need to have Nix installed.</p>
+<ol>
+<li>
+<p><strong>Clone the repository</strong> (if this flake is part of a Git repository).</p>
+</li>
+<li>
+<p><strong>Enter the development shell:</strong> Navigate to the directory containing the <code>flake.nix</code> file in your terminal and run the command:</p>
+<pre><code class="language-bash">nix develop
+</code></pre>
+<p>This command will build the development environment for your current system and drop you into a shell with the specified packages and environment variables.</p>
+</li>
+<li>
+<p><strong>Start developing:</strong> Within the <code>nix develop</code> shell, you will have access to <code>git</code>, <code>hostname</code>, <code>qemu</code>, <code>gcc</code> (for native tools), <code>nasm</code>, <code>bear</code>, <code>clang-tools</code>, and the cross-compilation toolchain for <code>x86_64-elf</code> (via the environment variables). You can now build and test software targeting the <code>x86_64-elf</code> architecture.</p>
+</li>
+<li>
+<p><strong>Exit the development shell:</strong> To return to your regular shell, simply type <code>exit</code>.</p>
+</li>
+</ol>
+<p>This flake provides a convenient and reproducible environment for cross-platform development targeting embedded or bare-metal <code>x86_64</code> systems.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="qemu-usage-in-the-development-environment"><a class="header" href="#qemu-usage-in-the-development-environment">QEMU Usage in the Development Environment</a></h1>
+<p>This document details how to use QEMU, which is included in the development environment provided by this Nix flake, to
+emulate the <code>x86_64-elf</code> target system. QEMU allows you to run and test your cross-compiled software on a virtual
+machine directly from your development shell.</p>
+<h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
+<ul>
+<li>You have entered the development shell using <code>nix develop</code>. This ensures that QEMU and its related utilities
+(<code>qemu-img</code>) are available in your environment.</li>
+</ul>
+<h2 id="running-the-virtual-machine"><a class="header" href="#running-the-virtual-machine">Running The Virtual Machine</a></h2>
+<ul>
+<li>Simply run <code>make qemu</code> to start the virtual machine. This command will automatically handle the necessary steps to
+prepare the disk images and launch QEMU with the appropriate parameters. The remainder of the document explain the
+commands involved in this process.</li>
+</ul>
+<h2 id="disk-image-preparation"><a class="header" href="#disk-image-preparation">Disk Image Preparation</a></h2>
+<p>Before starting the virtual machine, the raw disk images are converted to the QCOW2 format using the <code>qemu-img</code> tool.
+This format offers advantages like dynamic allocation and snapshotting. The data disk is also resized.</p>
+<ol>
+<li>
+<p><strong>Copy Boot Image:</strong></p>
+<pre><code class="language-bash">cp $(HOST_IMAGE)/boot.flp $(HOST_IMAGE)/boot.raw
+</code></pre>
+<p>A copy of the boot floppy image is created with a <code>.raw</code> extension.</p>
+</li>
+<li>
+<p><strong>Convert to QCOW2:</strong></p>
+<pre><code class="language-bash">qemu-img convert -O qcow2 $(HOST_IMAGE)/boot.raw $(HOST_IMAGE)/boot.qcow2
+qemu-img convert -O qcow2 $(HOST_IMAGE)/data.raw $(HOST_IMAGE)/data.qcow2
+</code></pre>
+<p>The <code>qemu-img convert</code> command transforms both the boot image and the data disk image into the QCOW2 format (<code>-O qcow2</code>).</p>
+</li>
+<li>
+<p><strong>Resize Data Disk:</strong></p>
+<pre><code class="language-bash">qemu-img resize $(HOST_IMAGE)/data.qcow2 204800K
+</code></pre>
+<p>The <code>qemu-img resize</code> command expands the capacity of the <code>data.qcow2</code> image to 204800 kilobytes (200 MB).</p>
+</li>
+<li>
+<p><strong>Set File Permissions:</strong></p>
+<pre><code class="language-bash">chmod a+r $(HOST_IMAGE)/boot.qcow2
+chmod a+r $(HOST_IMAGE)/data.qcow2
+chown "$(id -u):$(id -g)" $(HOST_IMAGE)/boot.qcow2
+chown "$(id -u):$(id -g)" $(HOST_IMAGE)/data.qcow2
+</code></pre>
+<p>These commands ensure that the converted QCOW2 images are readable by all users and that the ownership is set to the
+current user and group.</p>
+</li>
+</ol>
+<h2 id="running-the-virtual-machine-with-qemu"><a class="header" href="#running-the-virtual-machine-with-qemu">Running the Virtual Machine with QEMU</a></h2>
+<p>The command to launch the virtual machine using QEMU varies slightly depending on your host operating system (Linux or
+macOS) to accommodate different networking configurations.</p>
+<h3 id="linux"><a class="header" href="#linux">Linux</a></h3>
+<p>On Linux, the configuration utilizes TAP networking to potentially allow the guest VM to interact with the host's
+network.</p>
+<pre><code class="language-bash">sudo qemu-system-x86_64 \
+    -m 8G -smp 4 \
+    -drive file=&lt;span class="math-inline"&gt;\(HOST\_IMAGE\)/boot\.qcow2,format\=qcow2,if\=floppy,media\=disk,if\=ide \\
+\-drive file\=&lt;/span&gt;(HOST_IMAGE)/data.qcow2,format=qcow2,media=disk,if=ide \
+    -netdev tap,id=vmnet,ifname=$(TAP_NAME),script=no,downscript=no \
+    -device e1000,netdev=vmnet,mac=08:00:27:40:f1:1e \
+    -accel kvm \
+    -cpu SandyBridge
+</code></pre>
+<ul>
+<li><code>sudo qemu-system-x86_64</code>: This invokes the QEMU emulator for the 64-bit x86 architecture. <code>sudo</code> might be necessary
+for network interface manipulation.</li>
+<li><code>-m 8G</code>: Allocates 8 gigabytes of RAM to the emulated machine.</li>
+<li><code>-smp 4</code>: Configures the virtual machine to have 4 symmetric multi-processing (SMP) cores.</li>
+<li><code>-drive file=$(HOST_IMAGE)/boot.qcow2,format=qcow2,if=floppy,media=disk,if=ide</code>: Attaches the <code>boot.qcow2</code> image as
+a floppy disk on the primary IDE interface.</li>
+<li><code>-drive file=$(HOST_IMAGE)/data.qcow2,format=qcow2,media=disk,if=ide</code>: Attaches the <code>data.qcow2</code> image as a hard
+disk on the secondary IDE interface.</li>
+<li><code>-netdev tap,id=vmnet,ifname=$(TAP_NAME),script=no,downscript=no</code>: Sets up a TAP network interface. The interface
+name is determined by the <code>$(TAP_NAME)</code> variable. <code>script=no</code> and <code>downscript=no</code> prevent QEMU from executing scripts to
+manage the interface.</li>
+<li><code>-device e1000,netdev=vmnet,mac=08:00:27:40:f1:1e</code>: Creates a virtual Intel E1000 network card within the VM and
+connects it to the <code>vmnet</code> network backend (the TAP interface). A specific MAC address is assigned to the virtual NIC.</li>
+<li><code>-accel kvm</code>: Enables the Kernel-based Virtual Machine (KVM) acceleration if available on your Linux system. This
+can significantly improve the performance of the emulated machine.</li>
+<li><code>-cpu SandyBridge</code>: Specifies the CPU model to be emulated.</li>
+</ul>
+<h3 id="macos"><a class="header" href="#macos">macOS</a></h3>
+<p>On macOS, the configuration typically uses QEMU's <code>vmnet-shared</code> networking mode, which allows the guest VM to share the
+host's network connection.</p>
+<pre><code class="language-bash">sudo qemu-system-x86_64 \
+    -m 8G -smp 4 \
+    -drive file=&lt;span class="math-inline"&gt;\(HOST\_IMAGE\)/boot\.qcow2,format\=qcow2,if\=floppy,media\=disk,if\=ide \\
+\-drive file\=&lt;/span&gt;(HOST_IMAGE)/data.qcow2,format=qcow2,media=disk,if=ide \
+    -netdev vmnet-shared,id=vmnet -device e1000,netdev=vmnet,mac=08:00:27:40:f1:1e \
+    -cpu SandyBridge
+</code></pre>
+<p>The options are largely the same as on Linux, with the key difference being the network configuration:</p>
+<ul>
+<li><code>-netdev vmnet-shared,id=vmnet</code>: Configures QEMU to use the <code>vmnet-shared</code> networking backend provided by QEMU on
+macOS. This allows the guest to access the network through the host's connection without requiring manual TAP interface
+setup.</li>
+</ul>
+<h2 id="tap-interface-management-linux"><a class="header" href="#tap-interface-management-linux">TAP Interface Management (Linux)</a></h2>
+<p>The provided snippet includes commands for managing TAP network interfaces on Linux, which might be necessary for
+certain networking setups.</p>
+<ul>
+<li>
+<p><strong>Checking for TAP Interface (<code>check_tap</code>):</strong></p>
+<pre><code class="language-bash">@if ip link show $(TAP_NAME) &gt; /dev/null 2&gt;&amp;1; then \
+    echo "TAP interface $(TAP_NAME) already exists."; \
+else \
+    $(MAKE) create_tap; \
+fi
+</code></pre>
+<p>This command checks if a network interface with the name specified by <code>$(TAP_NAME)</code> exists. If it does, a message is
+printed; otherwise, the <code>create_tap</code> command is executed.</p>
+</li>
+<li>
+<p><strong>Creating a TAP Interface (<code>create_tap</code>):</strong></p>
+<pre><code class="language-bash">@echo "Creating TAP interface $(TAP_NAME)..."
+sudo ip tuntap add dev $(TAP_NAME) mode tap
+sudo ip link set $(TAP_NAME) up
+sudo ip addr add $(HOST_IP) dev $(TAP_NAME)
+@echo "TAP interface $(TAP_NAME) created with IP $(HOST_IP)"
+</code></pre>
+<p>This set of commands creates a TAP interface:</p>
+<ul>
+<li><code>sudo ip tuntap add dev $(TAP_NAME) mode tap</code>: Creates the TAP device with the specified name.</li>
+<li><code>sudo ip link set $(TAP_NAME) up</code>: Activates the newly created interface.</li>
+<li><code>sudo ip addr add $(HOST_IP) dev $(TAP_NAME)</code>: Assigns the IP address specified by <code>$(HOST_IP)</code> to the TAP interface.</li>
+</ul>
+</li>
+<li>
+<p><strong>Deleting a TAP Interface (<code>delete_tap</code>):</strong></p>
+<pre><code class="language-bash">@echo "Deleting TAP interface $(TAP_NAME)..."
+sudo ip link delete $(TAP_NAME)
+@echo "TAP interface $(TAP_NAME) deleted."
+</code></pre>
+<p>This command removes the TAP interface specified by <code>$(TAP_NAME)</code>.</p>
+</li>
+</ul>
+<p><strong>Note:</strong> The <code>$(TAP_NAME)</code> and <code>$(HOST_IP)</code> variables are defined in <code>makefile.vars</code>.</p>
+<p>By using these QEMU commands within the Nix development shell, you can easily test your <code>x86_64-elf</code> target software on
+a virtual machine that closely mimics the intended deployment environment.</p>
+<div style="break-before: page; page-break-before: always;"></div><p>As with any other OS development it is necessary to use a cross compiler unless you are developing on your own operating system.</p>
+<p>If you are new to OS development (and find the previous sentence confusing) we highly recommend the following readings and tutorials:</p>
+<ul>
+<li><a href="https://wiki.osdev.org/Getting_Started">Getting Started</a></li>
+<li><a href="https://wiki.osdev.org/Beginner_Mistakes">Beginner Mistakes</a></li>
+<li><a href="https://wiki.osdev.org/Why_do_I_need_a_Cross_Compiler%3F">Why do I need a Cross Compiler?</a></li>
+<li><a href="https://wiki.osdev.org/Bare_Bones">Bare Bones</a></li>
+</ul>
+<h1 id="migrating-from-docker-containers-to-nix-flakes"><a class="header" href="#migrating-from-docker-containers-to-nix-flakes">Migrating from Docker Containers to Nix Flakes</a></h1>
+<p>Previously, the cross compiler lived in a docker container which was then used to compile NileOS.</p>
+<p>However, other than performance issues caused by the overhead of a docker container, there were also issues of not having access to your development environment or the rest of your directory while in the container. Thus we decided to improve this using <a href="https://nix.dev/concepts/flakes.html">Nix Flakes</a></p>
+<p>The reason we chose to use a nix flake is because of their ability to guarantee reproducibility across various devices (removing the possibility of works on my device issues), while having none of the performance disadvantages and directory limitations associated with Docker containers.</p>
+<p>For more details on the specifics of the nix flake we used see <a href="nix.html">Nix</a>.</p>
+<h1 id="upgrading-to-gcc-14"><a class="header" href="#upgrading-to-gcc-14">Upgrading to gcc 14</a></h1>
+<p>Through the efforts of Dr Karim, NileOS was updated to use gcc 14. See this <a href="https://github.com/AUCNileOS/bosml_ipioe/pull/3">pull request</a> for details on the implementation.</p>
+<p>The entire issue was caused by a change in how the gcc compiler manages the base pointer for stacks that clashed with how NileOS used to manage the stack pointer.</p>
+<p>This entire experience taught us two things:</p>
+<ul>
+<li>Sometimes issues can be caused by a single line of assembly that requires intense sessions of emulation (due to the need to see every single line of assembly running) in order to discover (or the help of Dr Karim).</li>
+<li>Do not needlessly change the major gcc version without ensuring that none of the changes made to gcc cause new problems to appear.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><p>There are two main paths for running NileOS - emulation and simulation.</p>
+<h1 id="emulation"><a class="header" href="#emulation">Emulation</a></h1>
+<p>Emulation is incredibly accurate and ensures that every single line of assembly is ran. Dr Karim told us it is possible to emulate using Bochs however we have yet to try and replicate this emulation as we found no pressing need for it during our experiments.</p>
+<h1 id="simulation"><a class="header" href="#simulation">Simulation</a></h1>
+<p>Simulation is not as accurate or as in depth as emulation, but it is much faster and easier to test on.</p>
+<p>Initially NileOS was simulated using VirtualBOX however the team was never able to properly replicate Dr Karim's usage of VirtualBOX (possibly due to version issues, likely skill issues).</p>
+<p>Thus, since we had prior experience with the usage of qemu the team decided to attempt to simulate NileOS on qemu-x86_64 while using the same setup instructions Dr Karim had provided for VirtualBox.</p>
+<p>Eventually after some trial and error with the specific CPU chosen for simulation we managed to get an emulation up and running.</p>
+<p>For more specific details see the dedicated <a href="qemu.html">qemu page</a>.</p>
+<h2 id="network-simulation"><a class="header" href="#network-simulation">Network Simulation</a></h2>
+<p>Currently, the only method we have to communicate with an instance of NileOS is to use <a href="https://github.com/AUCNileOS/bosml_ipioe/tree/main/KShell">KShell</a>.</p>
+<p>In order for KShell to connect to NileOS it is necessary to ensure that the current simulation of NileOS has networking setup correctly. On Linux this means having a tap network setup for NileOS, while on MacOS this meant using a specific network setting with qemu.</p>
+<p>However, on macOS a problem arises when the specific ip addresses used by KShell are not available. One of the following two actions fixed this issue, but I am unsure which one (perhaps it's both):</p>
+<ol>
+<li>Creating a bridge manually and the ip range for it</li>
+</ol>
+<pre><code class="language-bash">sudo ifconfig bridge1 create
+sudo ifconfig bridge1 192.168.57.1 netmask 255.255.255.0 up
+</code></pre>
+<ol start="2">
+<li>Modifying the <code>/Library/Preferences/SystemConfiguration/com.apple.vmnet.plist</code> <code>Shared_Net_Address</code> to match the ip range we use with KShell</li>
+</ol>
+<pre><code>&lt;key&gt;Shared_Net_Address&lt;/key&gt;
+&lt;string&gt;192.168.57.1&lt;/string&gt;
+</code></pre>
+<p>The specific instruction necessary to run qemu with all its configuration and networking setup was then added to our <a href="https://github.com/AUCNileOS/bosml_ipioe/blob/main/nileos/Makefile">makefile</a> such that any MacOS or Linux user can easily simulate NileOS by running <code>make qemu</code> in the <code>nileos</code> directory.</p>
+<p>Its then possible to connect to NileOS by running <code>make run</code> in the <code>Kshell</code> directory. (Note: ensure that you only attempt to connect to NileOS after it has complexity booted up and pinched all its cores).</p>
+<div style="break-before: page; page-break-before: always;"></div><p>Referring to this section as an experiment is somewhat of a misnomer as this was mainly an exercise of reading through existing code in the project in order to properly grasp how the use of services in NileOS changes how system calls work.</p>
+<p>The best way to properly understand how system calls work in NileOS is to first recall how they usually work in other operating systems (such as XV6 for anyone who took the course Operating Systems Lab).</p>
+<p>Next, recall that services are objects that are loaded in and out of memory that have the ability to provide system calls for our programs.</p>
+<p>Currently, some of the implementations of NileOS do not use services and instead directly grab a system call, while some functionality is correctly implemented using services with the appropriate service object being initialized and then called by any function that needs it.</p>
+<p>As is usually the case, the best way to learn is to do and thus we highly recommend tracing a service from <code>/usermode_services</code> in order to better understand how services work.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="attempting-c-exception-support-for-the-target-system"><a class="header" href="#attempting-c-exception-support-for-the-target-system">Attempting C++ Exception Support for the Target System</a></h1>
+<p>This document outlines the efforts made to port C++ exception handling to the <code>x86_64-elf</code> target system within this
+development environment. The approach was based on the information provided in the OSDev wiki article on <a href="https://wiki.osdev.org/C%2B%2B_Exception_Support">C++ Exception Support</a>.</p>
+<h2 id="porting-newlib"><a class="header" href="#porting-newlib">Porting Newlib</a></h2>
+<p>"Newlib is a C standard library implementation intended for use on embedded systems." One of the main attractions of Newlib is that it's fairly easy to port to any new system, however, it is not a complete implementation and lacks networking and dynamic linking.</p>
+<p>After researching and starting the porting process, we talked to Dr. Karim who informed us that we have an almost complete implementation of stdc, and that it makes no sense (in our case) to port an incomplete library. We eventually dropped the porting process in favor of moving faster towards C++ Exceptions.</p>
+<h2 id="initial-approach-to-exceptions"><a class="header" href="#initial-approach-to-exceptions">Initial Approach to Exceptions</a></h2>
+<p>The initial strategy involved the following steps based on the OSDev article <a href="https://wiki.osdev.org/C%2B%2B_Exception_Support">C++ Exception Support</a> :</p>
+<ol>
+<li><strong>Porting <code>libcxxrt</code>:</strong> This library provides the runtime support necessary for C++ features, including exceptions.</li>
+<li><strong>Porting <code>libgcc_eh</code>:</strong> This library from GCC handles the low-level details of exception propagation and stack
+unwinding.</li>
+</ol>
+<h2 id="challenges-encountered"><a class="header" href="#challenges-encountered">Challenges Encountered</a></h2>
+<h3 id="lack-of-a-fully-functioning-stdc"><a class="header" href="#lack-of-a-fully-functioning-stdc">Lack of a Fully Functioning <code>stdc</code></a></h3>
+<p>A significant obstacle was the absence of a complete and functional standard C library (<code>stdc</code>) for the target
+environment. The C++ standard library (<code>libcxx</code>) and its runtime dependencies often rely on features provided by <code>stdc</code>.</p>
+<h3 id="stubbing-for-libcxxrt-compilation"><a class="header" href="#stubbing-for-libcxxrt-compilation">Stubbing for <code>libcxxrt</code> Compilation</a></h3>
+<p>To overcome the missing <code>stdc</code> dependencies and allow <code>libcxxrt</code> to compile, it became necessary to add stubs for
+certain C library functions. These stubs provided minimal or no actual functionality but were sufficient to satisfy the
+compiler and linker during the build process of <code>libcxxrt</code>.</p>
+<h3 id="linker-script-modifications"><a class="header" href="#linker-script-modifications">Linker Script Modifications</a></h3>
+<p>The default linker scripts for the target environment were not configured to properly handle the object files and
+libraries produced during the <code>libcxxrt</code> build. Modifications to the linker scripts were required to ensure that the
+<code>libcxxrt</code> library could be linked successfully.</p>
+<h2 id="partial-success-libcxxrt-compilation"><a class="header" href="#partial-success-libcxxrt-compilation">Partial Success: <code>libcxxrt</code> Compilation</a></h2>
+<p>Despite the challenges, we were able to successfully compile the <code>libcxxrt</code> library for the <code>x86_64-elf</code> target after
+adding the necessary stubs and adjusting the linker scripts. This indicated progress in establishing the foundational
+runtime support for C++.</p>
+<h2 id="setback-porting-libgcc_eh"><a class="header" href="#setback-porting-libgcc_eh">Setback: Porting <code>libgcc_eh</code></a></h2>
+<p>The second part of the endeavor focused on porting <code>libgcc_eh</code>, which is crucial for the actual mechanism of throwing
+and catching exceptions. This proved to be significantly more complex than porting <code>libcxxrt</code>. Mainly due to missing system calls.</p>
+<h2 id="second-approach-itanium-c-abi"><a class="header" href="#second-approach-itanium-c-abi">Second approach (Itanium C++ ABI)</a></h2>
+<p>Other than the way presented in the OSDev article, the <a href="https://itanium-cxx-abi.github.io/cxx-abi/abi-eh.html">Itanium C++ API</a> is a definition of C++ Exception handling API at three levels. It is a more "bear metal" approach to implementing exceptions, where we do not rely on any porting of libraries or external implementation. The second approach, although constitutes more work, seems to be more appropriate for our use case with NileOS.</p>
+<h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
+<p>While the initial attempt to port C++ exceptions to the <code>x86_64-elf</code> target resulted in the successful compilation of
+<code>libcxxrt</code> (with the aid of stubs and linker modifications), the subsequent effort to port <code>libgcc_eh</code> was unsuccessful.
+The lack of a complete <code>stdc</code> and the inherent complexities of adapting low-level exception handling mechanisms like
+those in <code>libgcc_eh</code> to a custom environment presented significant hurdles that could not be overcome at this time.</p>
+<p>As such, it makes sense to continue with the second approach with implementing the low level details manually, instead of investing more time on trying to port the libraries.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>

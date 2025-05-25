@@ -1,0 +1,5 @@
+[book]
+authors = ["Pimyn Girgis", "Omar Elfouly"]
+language = "en"
+src = "src"
+title = "Nile OS Documentation"
